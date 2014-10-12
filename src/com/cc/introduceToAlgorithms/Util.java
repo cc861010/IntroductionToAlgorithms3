@@ -10,4 +10,10 @@ public class Util {
        o2 = o1;
        o1 =tmp;
     }
+
+    public static void printArray(Class t,Object[] array){
+        for(Object i:array){
+            System.out.println(t.cast(i));
+        }
+    }
 }

@@ -36,15 +36,19 @@ public class InsertionSort {
 
     public static Object[] sort(Integer[] source){
         for(int i=2;i<source.length;i++){
-
+           for(int j=i;j>=0;j--){
+              if(source[j-1]<source[j]){
+                 Util.swap(source[j-1],source[j]);
+              }
+           }
         }
-        return new Object[1];
+        return source;
     }
 
     public static void main(String[] args){
         Object[] integers = InsertionSort.sortOO(new Integer[]{1,9,7,2,6,24,65,57,54,33,14});
-        for(Object i:integers){
-           System.out.println((Integer)i);
-        }
+        Util.printArray(Integer.class,integers);
+        integers = InsertionSort.sort(new Integer[]{1,9,7,2,6,24,65,57,54,33,14});
+        Util.printArray(Integer.class,integers);
     }
 }
