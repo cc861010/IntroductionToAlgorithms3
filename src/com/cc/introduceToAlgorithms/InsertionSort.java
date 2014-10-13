@@ -35,10 +35,13 @@ public class InsertionSort {
     }
 
     public static Object[] sort(Integer[] source){
+        int tmp;
         for(int i=2;i<source.length;i++){
-           for(int j=i;j>=0;j--){
-              if(source[j-1]<source[j]){
-                 Util.swap(source[j-1],source[j]);
+           for(int j=i;j-1>=0;j--){
+              if(source[j-1]>source[j]){
+                  tmp = source[j-1];
+                  source[j-1] = source[j];
+                  source[j] = tmp;
               }
            }
         }

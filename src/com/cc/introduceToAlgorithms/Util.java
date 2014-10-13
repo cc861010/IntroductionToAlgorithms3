@@ -13,7 +13,8 @@ public class Util {
 
     public static void printArray(Class t,Object[] array){
         for(Object i:array){
-            System.out.println(t.cast(i));
+            System.out.print(t.cast(i));
         }
+        System.out.println();
     }
 }
