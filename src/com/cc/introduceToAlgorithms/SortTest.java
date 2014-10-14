@@ -67,15 +67,13 @@ class InsertionSort {
 class SelectionSort {
     private SelectionSort(){}
     public Integer getMinValueIndex(Integer[] source, int begin){
-        Integer tmp = -1;
+        int index = begin;
         for(int i=begin;i+1<source.length;i++){
-            if(source[i]<source[i+1]){
-                tmp = i;
-            }else{
-                tmp = i+1;
+            if(source[index]>source[i]){
+                index = i;
             }
         }
-        return tmp;
+        return index;
     }
 
     public Integer[] moveMinValueHead(Integer[] source){
@@ -94,15 +92,10 @@ class SelectionSort {
 
     public static Object[] sort(Integer[] source){
         for(int j=0;j<source.length;j++){
-            int value = source[j];
             int index = j;
             for(int i=j;i+1<source.length;i++){
-                if(value<source[i+1]){
+                if(source[index]>source[i]){
                     index = i;
-                    value = source[i];
-                }else{
-                    index = i+1;
-                    value = source[i+1];
                 }
             }
             Util.swap(source,j,index);
@@ -113,7 +106,58 @@ class SelectionSort {
 
 
 
+class MergeSort {
+    private MergeSort(){}
+    public void sore(Integer[] source){
+        switch (source.length){
+            case 1:break;
+            case 2:
+                if(source[0]>source[1]) Util.swap(source,0,1);
+                break;
+            default:
+                int a = (source.length%2==0)?source.length/2:source.length+1;
+                Integer[] left = new Integer[a];
+                Integer[] right = new Integer[source.length-a];
+                for(int i=0;i<source.length;i++){
+                    if(i<left.length){
+                        left[i] = source[i];
+                    }else{
+                        right[i-left.length] = source[i];
+                    }
+                }
 
+
+        }
+
+    }
+
+    private void merge(Integer[] source,int a,int b,int c,int d){
+        if(a==b && c==d){
+           if(source[a]>source[c]){
+               Util.swap(source,a,c);
+           }
+        }else{
+            int a1,b1,c1,d1;
+            if((b-a)%2==0){
+                a1 = a+(b-a)/2;
+                b1 = b-(b-a)/2;
+            }else{
+                a1 = a+(int)(b-a)/2+1;
+                b1 = b-(int)(b-a)/2-1;
+            }
+            merge(source,a,a1,b1,b);
+            if((d-c)%2==0){
+                c1 = c+(d-c)/2;
+                d1 = d-(d-c)/2;
+            }else{
+                c1 = c+(int)(d-c)/2+1;
+                d1 = d-(int)(d-c)/2-1;
+            }
+            merge(source,c,c1,d1,d);
+        }
+
+    }
+}
 
 
 
