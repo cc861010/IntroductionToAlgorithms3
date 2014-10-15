@@ -5,6 +5,7 @@ package com.cc.introduceToAlgorithms;
  */
 public class Util {
     public static void swap(Object[] array, int i, int j) {
+        if(i==j) return;
         Object tmp;
         if((array.length-1)>=i && (array.length-1)>=j ){
             tmp = array[i];

@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class SortTest{
     public static void main(String[] args){
-        Integer[] source = new Integer[]{1,9,7,2,6,24,65,57,54,33,14};
+        Integer[] source = new Integer[]{1,9,7,2,6,24,65,57,54,33,9};
 
         Util.printArray(Integer.class,InsertionSort.sortOO(source));
 
@@ -19,6 +19,8 @@ public class SortTest{
         Util.printArray(Integer.class,SelectionSort.sort(source));
 
         Util.printArray(Integer.class,MergeSort.sort(source));
+
+        Util.printArray(Integer.class,HeapSort.sort(source));
 
     }
 }
@@ -148,7 +150,44 @@ class MergeSort {
 
 class HeapSort{
     private HeapSort(){}
+    private static int getLeft(int a){return 2*a;}
+    private static int getRight(int a){return 2*a+1;}
+    private static int getParent(int a){return a/2;}
 
+    private void maxHeapify(Integer[] source,int a,int heapSize){
+        int l = getLeft(a);
+        int r = getRight(a);
+        int maxIndex =a;
+        if(source[l]>source[a] && l<heapSize){
+            maxIndex = l;
+        }
+        if(source[maxIndex]<source[r] && r<heapSize){
+            maxIndex = r;
+        }
+        if(maxIndex!=a){
+            Util.swap(source,a,r);
+            maxHeapify(source,maxIndex,heapSize);
+        }
+    }
+
+    private void buildMaxHeap(Integer[] source){
+        for(int i=getParent(source.length-1);i>=0;i--){
+          maxHeapify(source,i,source.length);
+        }
+    }
+
+    private void sort0(Integer[] source){
+        buildMaxHeap(source);
+        for(int i=source.length;i!=1;i--){
+            Util.swap(source,0,i);
+            maxHeapify(source,1,i);
+        }
+    }
+
+    public static Integer[] sort(Integer[] source){
+       new HeapSort().sort0(source);
+       return  source;
+    }
 
 
 }
