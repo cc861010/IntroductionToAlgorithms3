@@ -1,6 +1,7 @@
 package com.cc.introduceToAlgorithms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  */
 public class SortTest{
     public static void main(String[] args){
-        Integer[] source = new Integer[]{1,9,7,2,6,24,65,57,54,33,9};
+        Integer[] source = new Integer[]{1,9,7,2,6,4,5,3,8,10};
 
         Util.printArray(Integer.class,InsertionSort.sortOO(source));
 
@@ -113,13 +114,13 @@ class SelectionSort {
 class MergeSort {
     private MergeSort(){}
     public static Integer[] sort(Integer[] source){
-        new MergeSort().merge(source,0,(int)source.length/2,(int)source.length/2+1,source.length-1);
+        new MergeSort().merge(source, 0, (int) source.length / 2, (int) source.length / 2 + 1, source.length - 1);
         return source;
     }
 
     private void merge(Integer[] source,int a,int b,int c,int d){
         Integer[] result = new Integer[d-c+a-b+2];
-        if(result.length==1) return;
+        if(result.length<=1) return;
         int resultIndex = 0;
         for(int i=a;i<=b;){
             for(int j=c;j<=d;){
@@ -142,8 +143,8 @@ class MergeSort {
     private void mergeSort(Integer[] source,int a,int b,int c,int d){
         int m = (b-a)/2;
         int m1 = (d-c)/2;
-        mergeSort(source,a,m,m+1,b);
-        mergeSort(source,c,m1,m1+1,d);
+        mergeSort(source, a, m, m + 1, b);
+        mergeSort(source, c, m1, m1 + 1, d);
     }
 }
 
@@ -154,33 +155,44 @@ class HeapSort{
     private static int getRight(int a){return 2*a+1;}
     private static int getParent(int a){return a/2;}
 
-    private void maxHeapify(Integer[] source,int a,int heapSize){
-        int l = getLeft(a);
-        int r = getRight(a);
-        int maxIndex =a;
-        if(source[l]>source[a] && l<heapSize){
-            maxIndex = l;
+    private void maxHeapify(Integer[] source,int i,int heapSize){
+        int l = getLeft(i+1)-1;
+        int r = getRight(i+1)-1;
+        if(source.length<heapSize ) return;
+        int largest=r;
+        if(l<source.length){
+            if(l<heapSize && source[l]>source[i]){
+                largest = l;
+            }else{
+                largest = i;
+            }
         }
-        if(source[maxIndex]<source[r] && r<heapSize){
-            maxIndex = r;
+        if(r<source.length){
+            if(r<heapSize && source[r]>source[largest]){
+                largest = r ;
+            }
         }
-        if(maxIndex!=a){
-            Util.swap(source,a,r);
-            maxHeapify(source,maxIndex,heapSize);
+        if(largest != i && largest<source.length){
+            Util.swap(source,i,largest);
+            maxHeapify(source,largest,heapSize);
         }
     }
 
     private void buildMaxHeap(Integer[] source){
-        for(int i=getParent(source.length-1);i>=0;i--){
-          maxHeapify(source,i,source.length);
+        int heapSize = source.length;
+        for(int i=getParent(source.length)-1;i>=0;i--){
+            maxHeapify(source,i,heapSize);
         }
     }
 
     private void sort0(Integer[] source){
+        Util.printArrayTriangle(Arrays.asList(source));
         buildMaxHeap(source);
-        for(int i=source.length;i!=1;i--){
+        Util.printArrayTriangle(Arrays.asList(source));
+        for(int i=source.length-1;i!=0;i--){
             Util.swap(source,0,i);
-            maxHeapify(source,1,i);
+            maxHeapify(source,0,i);
+            Util.printArrayTriangle(Arrays.asList(source));
         }
     }
 
@@ -188,7 +200,6 @@ class HeapSort{
        new HeapSort().sort0(source);
        return  source;
     }
-
 
 }
 
