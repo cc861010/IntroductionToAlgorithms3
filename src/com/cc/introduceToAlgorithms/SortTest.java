@@ -1,57 +1,30 @@
 package com.cc.introduceToAlgorithms;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by BearBB on 2014/10/12.
+ *
+ * http://www.cnblogs.com/kkun/archive/2011/11/23/2260312.html
  */
 public class SortTest{
     public static void main(String[] args){
-        Integer[] source = new Integer[]{1,9,7,2,6,4,5,3,8,10};
+        Integer[] source = new Integer[]{11,92,71,2,62,43,51,34,86,10,333,11};
 
-        Util.printArray(Integer.class,InsertionSort.sortOO(source));
+        Util.printArray(Integer.class, InsertionSort.sort(source));
 
-        Util.printArray(Integer.class,InsertionSort.sort(source));
+        Util.printArray(Integer.class, SelectionSort.sort(source));
 
-        Util.printArray(Integer.class,SelectionSort.sortOO(source));
-
-        Util.printArray(Integer.class,SelectionSort.sort(source));
-
-        Util.printArray(Integer.class,MergeSort.sort(source));
+        Util.printArray(Integer.class, MergeSort.sort(source));
 
         Util.printArray(Integer.class,HeapSort.sort(source));
+
+        Util.printArray(Integer.class, BucketSort.sort(source));
+
+        Util.printArray(Integer.class, QuickSort.sort(source));
 
     }
 }
 
 class InsertionSort {
-    private InsertionSort(){};
-    public static class SortedPart{
-        public List<Integer> list = new ArrayList<Integer>();
-        public void addValue(int value){
-            list.add(value);
-            swapIfLessTheFrontValueFromEnd();
-        }
-        private void swapIfLessTheFrontValueFromEnd(){
-            for(int j=list.size()-1;j>=1;j--){
-                if(list.get(j)<list.get(j-1)){
-                    int tmp = list.get(j);
-                    list.set(j,list.get(j-1));
-                    list.set(j-1,tmp);
-                }
-            }
-        }
-    }
-    public static Object[] sortOO(Integer[] source){
-        SortedPart sortedPart = new SortedPart();
-        for(Integer i:source){
-            sortedPart.addValue(i);
-        }
-        return sortedPart.list.toArray();
-    }
-
     public static Object[] sort(Integer[] source){
         int tmp;
         for(int i=2;i<source.length;i++){
@@ -70,30 +43,6 @@ class InsertionSort {
 
 
 class SelectionSort {
-    private SelectionSort(){}
-    public Integer getMinValueIndex(Integer[] source, int begin){
-        int index = begin;
-        for(int i=begin;i+1<source.length;i++){
-            if(source[index]>source[i]){
-                index = i;
-            }
-        }
-        return index;
-    }
-
-    public Integer[] moveMinValueHead(Integer[] source){
-       for(int i=0;i+1<source.length;i++){
-           Util.swap(source,i,getMinValueIndex(source,i));
-       }
-       return source;
-    }
-
-
-    public static Integer[] sortOO(Integer[] source){
-        SelectionSort selectionSort = new SelectionSort();
-        return selectionSort.moveMinValueHead(source);
-    }
-
 
     public static Object[] sort(Integer[] source){
         for(int j=0;j<source.length;j++){
@@ -103,7 +52,7 @@ class SelectionSort {
                     index = i;
                 }
             }
-            Util.swap(source,j,index);
+            Util.swap(source, j, index);
         }
         return source;
     }
@@ -139,13 +88,6 @@ class MergeSort {
             source[i] = result[j];
         }
     }
-
-    private void mergeSort(Integer[] source,int a,int b,int c,int d){
-        int m = (b-a)/2;
-        int m1 = (d-c)/2;
-        mergeSort(source, a, m, m + 1, b);
-        mergeSort(source, c, m1, m1 + 1, d);
-    }
 }
 
 
@@ -173,7 +115,7 @@ class HeapSort{
             }
         }
         if(largest != i && largest<source.length){
-            Util.swap(source,i,largest);
+            Util.swap(source, i, largest);
             maxHeapify(source,largest,heapSize);
         }
     }
@@ -186,13 +128,13 @@ class HeapSort{
     }
 
     private void sort0(Integer[] source){
-        Util.printArrayTriangle(Arrays.asList(source));
+        //Util.printArrayTriangle(Arrays.asList(source));
         buildMaxHeap(source);
-        Util.printArrayTriangle(Arrays.asList(source));
+        //Util.printArrayTriangle(Arrays.asList(source));
         for(int i=source.length-1;i!=0;i--){
-            Util.swap(source,0,i);
+            Util.swap(source, 0, i);
             maxHeapify(source,0,i);
-            Util.printArrayTriangle(Arrays.asList(source));
+            //Util.printArrayTriangle(Arrays.asList(source));
         }
     }
 
@@ -200,6 +142,67 @@ class HeapSort{
        new HeapSort().sort0(source);
        return  source;
     }
+
+}
+
+class BucketSort{
+
+    public static Integer[] sort(Integer[] source){
+        for(int i=1;i<=3;i++){
+            soreByThePlaceOfBucketId(source,i);
+        }
+        return source;
+    }
+
+    private static void soreByThePlaceOfBucketId(Integer[] source, int bucketIdPlace){
+        Integer[] integers = new Integer[source.length];
+        int index = 0;
+        for(int i=0;i<10;i++){
+            for(int v:source){
+                if(i == (int)Util.getCharAt(bucketIdPlace,v)){
+                    integers[index++] = v;
+                }
+            }
+        }
+        source= integers;
+    }
+
+}
+
+class QuickSort{
+    public static Integer[] sort(Integer[] source){
+         quickSort(source,0,source.length-1);
+         return source;
+    }
+    private static void quickSort(Integer[] source,int p,int r){
+         if(r-p>1){
+             int m = partition(source,p,r);
+             quickSort(source,p,m);
+             quickSort(source,m+1,r);
+         }else if(r-p==1){
+            if(source[r]<source[p]){
+                Util.swap(source,r,p);
+            }
+         }else{
+            return;
+         }
+    }
+
+    private static int partition(Integer[] source, int m,int n) {
+        int v = source[m];
+        int vIndex = m;
+        for(int i=m+1;i<=n;i++){
+            if(source[i] >= v){
+                continue;
+            }else{
+                Util.swap(source,i,vIndex+1);
+                Util.swap(source,vIndex,vIndex+1);
+                m++;
+            }
+        }
+        return vIndex;
+    }
+
 
 }
 

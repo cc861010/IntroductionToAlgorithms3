@@ -206,5 +206,12 @@ public class Util {
         }
     }
 
-
+    public static long getCharAt(int i, long value){
+        String valueString = value+"";
+        if(i>valueString.length()){
+            return 0;
+        }else{
+            return Long.parseLong(valueString.charAt(valueString.length()-i)+"");
+        }
+    }
 }
