@@ -10,6 +10,7 @@ import java.util.List;
  * Created by BearBB on 2014/10/12.
  */
 public class Util {
+
     public static void swap(Object[] array, int i, int j) {
         if(i==j) return;
         Object tmp;
