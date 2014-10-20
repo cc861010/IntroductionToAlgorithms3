@@ -15,11 +15,14 @@ public class SortTest{
 
         Util.printArray(Integer.class, MergeSort.sort(source));
 
-        Util.printArray(Integer.class,HeapSort.sort(source));
+        Util.printArray(Integer.class, HeapSort.sort(source));
 
         Util.printArray(Integer.class, BucketSort.sort(source));
 
         Util.printArray(Integer.class, QuickSort.sort(source));
+
+        Util.printArray(Integer.class, CountSort.sort(source));
+
 
     }
 }
@@ -211,7 +214,22 @@ class QuickSort{
 class CountSort{
 
     public static Integer[] sort(Integer[] source){
-        return null;
+        Integer[] integers = new Integer[source.length];
+        for(int i=0;i<source.length;i++){
+           int k=0,e=0;
+           for(int j=0;j<source.length;j++){
+              if(source[i]>source[j]){
+                  k++;
+              }else if(source[i]==source[j]){
+                  e++;
+              }
+           }
+           while(e!=0){
+               integers[i] = source[k++];
+               e--;
+           }
+        }
+        return integers;
     }
 
 }
